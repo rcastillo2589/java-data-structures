@@ -2,21 +2,69 @@
 public class RCVector<T> {
   private final int INITIAL_SIZE = 4;
 
-  private T[] data;
+  private Object[] data;
   private int size;
 
   public static void main(String[] args) {
+    RCVector<String> vector = new RCVector<String>();
 
+    System.out.println("IsEmpty: " + vector.isEmpty());
+    vector.insert("one");
+    vector.insert("two");
+    vector.insert("three");
+    vector.insert("four");
+    vector.insert("five");
+
+    vector.printAll("Inserts");
+
+    vector.delete(0);
+    vector.delete(0);
+
+    vector.printAll("Delete 0 2x");
+    System.out.println("GetSize: " + vector.getSize());
+    System.out.println("IsEmpty: " + vector.isEmpty());
+
+    vector.push("six");
+    vector.push("seven");
+    vector.push("eight");
+
+    System.out.println("ValueAt 4: " + vector.valueAt(4));
+    System.out.println("ValueAt 2: " + vector.valueAt(2));
+
+    vector.printAll("Push");
+
+    vector.prepend("zero");
+    vector.prepend("neg-one");
+    vector.prepend("neg-two");
+
+    vector.printAll("Prepend(3x)");
+    System.out.println("GetSize: " + vector.getSize());
+
+    vector.pop();
+    vector.pop();
+
+    System.out.println("GetSize: " + vector.getSize());
+    vector.printAll("Pop(2x)");
   }
 
   public RCVector() {
-    data = new T[INITIAL_SIZE];
+    data = new Object[INITIAL_SIZE];
     size = 0;
+  }
+
+  public void printAll(String operations) {
+    System.out.print(operations + ": ");
+    for(int i = 0; i < size; i++) {
+      System.out.print((T)data[i] + ",");
+    }
+    System.out.println();
   }
 
   public void insert(T value) {
     if(size == data.length) {
       resize(data.length * 2);
+      data[size++] = value;
+    } else {
       data[size++] = value;
     }
   }
@@ -35,14 +83,14 @@ public class RCVector<T> {
     }
   }
 
-  public void getSize() {
+  public int getSize() {
     return size;
   }
 
-  public static void resize(int newSize) {
-    T[] temp = new T[newSize];
-    System.arraycopy(data, 0, temp, 0, data.length);
-    data = new T[newSize];
+  public void resize(int newSize) {
+    Object[] temp = new Object[newSize];
+    System.arraycopy(data, 0, temp, 0, size);
+    data = new Object[newSize];
     data = temp;
   }
 
@@ -55,12 +103,14 @@ public class RCVector<T> {
   }
 
   public T valueAt(int index) {
-    return data[index];
+    return (T)data[index];
   }
 
   public void push(T value) {
     if(size == data.length) {
       resize(data.length * 2);
+      data[size++] = value;
+    } else {
       data[size++] = value;
     }
   }
@@ -75,17 +125,17 @@ public class RCVector<T> {
     }
 
     data[0] = value;
-    size--;
+    size++;
   }
 
   public T pop() {
-    T value = data[size - 1];
+    Object value = data[size - 1];
     size--;
 
     if(size == data.length / 4) {
       resize(data.length / 2);
     }
 
-    return value;
+    return (T)value;
   }
 }
