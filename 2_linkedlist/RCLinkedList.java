@@ -41,6 +41,26 @@ public class RCLinkedList<T> {
     System.out.println("pop front: " + list.popFront());
 
     list.printAll("Popped");
+
+    System.out.println("pop back: " + list.popBack());
+    System.out.println("pop back: " + list.popBack());
+
+    list.printAll("Popped back");
+
+    list.insertAt(1, "five");
+    list.insertAt(1, "six");
+    list.insertAt(3, "seven");
+
+    list.printAll("InsertAt 5(1),6(1),7(3)");
+
+    list.eraseAt(3);
+    list.eraseAt(0);
+
+    list.printAll("EraseAt 3,0");
+
+    System.out.println("2 from end: " + list.valueFromEnd(2));
+    System.out.println("1 from end: " + list.valueFromEnd(1));
+    System.out.println("Size: " + list.size());
   }
 
   public RCLinkedList() {
@@ -127,6 +147,7 @@ public class RCLinkedList<T> {
 
     if(head == null) {
       head = newNode;
+      size++;
     } else {
       current = head;
 
@@ -136,6 +157,117 @@ public class RCLinkedList<T> {
 
       current.next = newNode;
       size++;
+    }
+  }
+
+  public T popBack() {
+    T value = null;
+    Node<T> current = null;
+    Node<T> previous = null;
+
+    if(head == null) {
+      return null;
+    } else {
+      current = head;
+
+      while(current != null) {
+        if(current.next == null) {
+          value = current.data;
+          previous.next = null;
+          size--;
+
+          return value;
+        }
+
+        previous = current;
+        current = current.next;
+      }
+
+      return null;
+    }
+  }
+
+  public void insertAt(int position, T value) {
+    Node<T> current = null;
+    Node<T> previous = null;
+    Node<T> newNode = new Node<T>(value);
+    int count = 0;
+
+    if(head == null && position == 0) {
+      head = newNode;
+      size++;
+    } else if(head == null && position > 0) {
+      return;
+    } else if(position > size) {
+      return;
+    } else {
+      current = head;
+
+      while(current != null) {
+        if(count == position) {
+          previous.next = newNode;
+          newNode.next = current;
+          size++;
+        }
+
+        previous = current;
+        current = current.next;
+        count++;
+      }
+    }
+  }
+
+  public void eraseAt(int position) {
+    Node<T> current = null;
+    Node<T> previous = null;
+    int count = 0;
+
+    if(head == null) {
+      return;
+    } else if(position == 0) {
+      head = head.next;
+      size--;
+    } else if(position > size) {
+      return;
+    } else {
+      current = head;
+
+      while(current != null) {
+        if(count == position) {
+          previous.next = current.next;
+          size--;
+        }
+
+        previous = current;
+        current = current.next;
+        count++;
+      }
+    }
+  }
+
+  public T valueFromEnd(int position) {
+    int count = 0;
+    int fromFront = 0;
+    Node<T> current = null;
+
+    if(head == null) {
+      return null;
+    } else if(position > size) {
+      return null;
+    } else {
+      current = head;
+      fromFront = (size - position) - 1;
+
+      while(current != null) {
+        if(count == fromFront) {
+          return current.data;
+        }
+
+        current = current.next;
+        count++;
+      }
+
+      return null;
     }
   }
 }
