@@ -61,6 +61,14 @@ public class RCLinkedList<T> {
     System.out.println("2 from end: " + list.valueFromEnd(2));
     System.out.println("1 from end: " + list.valueFromEnd(1));
     System.out.println("Size: " + list.size());
+
+    list.reverse();
+    list.printAll("Reverse");
+
+    list.remove("one");
+    list.remove("two");
+
+    list.printAll("Removed 1,2");
   }
 
   public RCLinkedList() {
@@ -268,6 +276,54 @@ public class RCLinkedList<T> {
       }
 
       return null;
+    }
+  }
+
+  public void reverse() {
+    Node<T> current = null;
+    Node<T> previous = null;
+    Node<T> front = null;
+
+    if(head == null || size == 0) {
+      return;
+    } else {
+      current = head;
+      front = head.next;
+
+      while(front != null) {
+        current.next = previous;
+
+        previous = current;
+        current = front;
+        front = front.next;
+      }
+
+      head = current;
+      head.next = previous;
+    }
+  }
+
+  public void remove(T value) {
+    Node<T> current = null;
+    Node<T> previous = null;
+
+    if(head == null) {
+      return;
+    } else if(head.data == value) {
+      head = head.next;
+      size--;
+    } else {
+      current = head;
+
+      while(current != null) {
+        if(current.data == value) {
+          previous.next = current.next;
+          size--;
+        }
+
+        previous = current;
+        current = current.next;
+      }
     }
   }
 }
