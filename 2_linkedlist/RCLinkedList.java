@@ -30,6 +30,17 @@ public class RCLinkedList<T> {
 
     System.out.println("valueAt 0: " + list.valueAt(0));
     System.out.println("valueAt 3: " + list.valueAt(3));
+
+    list.pushFront("zero");
+    list.pushFront("neg-one");
+    list.pushFront("neg-two");
+
+    list.printAll("PushFront");
+
+    System.out.println("pop front: " + list.popFront());
+    System.out.println("pop front: " + list.popFront());
+
+    list.printAll("Popped");
   }
 
   public RCLinkedList() {
@@ -78,6 +89,35 @@ public class RCLinkedList<T> {
       }
 
       return null;
+    }
+  }
+
+  public void pushFront(T value) {
+    Node<T> temp = null;
+    Node<T> newNode = new Node<T>(value);
+
+    if(head == null) {
+      head = newNode;
+      size++;
+    } else {
+      temp = head;
+      head = newNode;
+      head.next = temp;
+      size++;
+    }
+  }
+
+  public T popFront() {
+    Node<T> poppedNode = null;
+
+    if(head == null) {
+      return null;
+    } else {
+      poppedNode = head;
+      head = head.next;
+      size--;
+
+      return poppedNode.data;
     }
   }
 
