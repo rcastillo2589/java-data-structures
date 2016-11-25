@@ -27,6 +27,9 @@ public class RCLinkedList<T> {
     list.pushBack("four");
 
     list.printAll("PushBack");
+
+    System.out.println("valueAt 0: " + list.valueAt(0));
+    System.out.println("valueAt 3: " + list.valueAt(3));
   }
 
   public RCLinkedList() {
@@ -70,7 +73,7 @@ public class RCLinkedList<T> {
           return current.data;
         }
 
-        current = head.next;
+        current = current.next;
         count++;
       }
 
@@ -92,7 +95,7 @@ public class RCLinkedList<T> {
       }
 
       current.next = newNode;
-      current.size++;
+      size++;
     }
   }
 }
